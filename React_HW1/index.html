@@ -138,41 +138,28 @@
             return (
                 <table>
                     <tbody>
-                        {CARS.map(car => (
-                            <React.Fragment key={car.id}>
+                        {CARS.map(brand => (
+                            <React.Fragment key={brand.id}>
                                 <tr>
-                                    <td colSpan="2" className="brand-header">{car.brand}</td>
+                                    <td colSpan="2" className="brand-header">{brand.brand}</td>
                                 </tr>
-
-                                {car.models.map(model => (
-                                    <React.Fragment key={model.id}>
-                                        <tr>
-                                            <td rowSpan={model.collection.length} className="model-header">
-                                                {model.name}
-                                            </td>
+                                {brand.models.map(model => (
+                                    model.collection.map((car, index) => (
+                                        <tr key={`${model.id}-${car.id}`}>
+                                            {index === 0 && (
+                                                <td rowSpan={model.collection.length} className="model-header">{model.name}</td>
+                                            )}
                                             <td>
                                                 <ul>
-                                                    <li><b>Version:</b> {model.collection[0].version}</li>
-                                                    <li><b>Year:</b> {model.collection[0].year}</li>
-                                                    <li><b>Horsepower:</b> {model.collection[0].horsepower}</li>
-                                                    <li><b>Engine:</b> {model.collection[0].engine}</li>
+                                                    {Object.entries(car)
+                                                        .filter(([key]) => key !== "id")
+                                                        .map(([key, value]) => (
+                                                            <li key={key}><b>{key.charAt(0).toUpperCase() + key.slice(1)}:</b> {value}</li>
+                                                        ))}
                                                 </ul>
                                             </td>
                                         </tr>
-
-                                        {model.collection.slice(1).map((spec, index) => (
-                                            <tr key={`${model.id}-${index}`}>
-                                                <td>
-                                                    <ul>
-                                                        <li><b>Version:</b> {spec.version}</li>
-                                                        <li><b>Year:</b> {spec.year}</li>
-                                                        <li><b>Horsepower:</b> {spec.horsepower}</li>
-                                                        <li><b>Engine:</b> {spec.engine}</li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </React.Fragment>
+                                    ))
                                 ))}
                             </React.Fragment>
                         ))}
