@@ -1,14 +1,5 @@
-import React, { createContext } from "react";
-import useCountries from "../hooks/useCountries";
+import { createContext } from "react";
 
-export const CountriesContext = createContext();
+const CountriesContext = createContext(null);
 
-export default function CountriesProvider({ children }) {
-  const { countries, deleteCountry } = useCountries();
-
-  return (
-    <CountriesContext.Provider value={{ countries, deleteCountry }}>
-      {children}
-    </CountriesContext.Provider>
-  );
-}
+export default CountriesContext;
